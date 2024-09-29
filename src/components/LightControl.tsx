@@ -3,12 +3,40 @@ import { Switch } from './ui/switch';
 
 interface LightControlProps {
     isOn: boolean;
+    loading: boolean;
+    error: string | null;
     onToggle: () => void;
 }
 
-export default function LightControl({ isOn, onToggle }: LightControlProps) {
+export default function LightControl({ isOn, loading, error, onToggle }: LightControlProps) {
+    if (loading) {
+        return (
+            <Card>
+                <CardHeader>
+                    <CardTitle>Lights</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p>Loading...</p>
+                </CardContent>
+            </Card>
+        );
+    }
+
+    if (error) {
+        return (
+            <Card>
+                <CardHeader>
+                    <CardTitle>Lights</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-red-500">{error}</p>
+                </CardContent>
+            </Card>
+        );
+    }
+
     return (
-        <Card className='relative'>
+        <Card>
             <CardHeader>
                 <CardTitle>Lights</CardTitle>
             </CardHeader>
