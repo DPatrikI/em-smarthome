@@ -53,8 +53,8 @@ export default function Home() {
           onPlayPause={handlePlayPause}
           onVolumeChange={handleVolumeChange}
         />
-        <ChatInterface />
       </div>
+      <ChatInterface />
     </div>
   );
 }
