@@ -2,12 +2,17 @@
 
 import ChatInterface from "@/components/ChatInterface";
 import LightControl from "@/components/LightControl";
+import MusicPlayerControl from "@/components/MusicPlayerControl";
 import ThermostatControl from "@/components/Thermostat";
 import { useState } from "react";
 
 export default function Home() {
   const [lightOn, setLightOn] = useState(false);
   const [temperature, setTemperature] = useState(22);
+  const [musicState, setMusicState] = useState({
+    isPlaying: false,
+    volume: 50,
+  });
 
   const handleLightToggle = () => {
     setLightOn((previous) => !previous);
@@ -15,6 +20,20 @@ export default function Home() {
 
   const handleTemperatureChange = (value: number) => {
     setTemperature(value);
+  };
+
+  const handlePlayPause = () => {
+    setMusicState((previousState) => ({
+      ...previousState,
+      isPlaying: !previousState.isPlaying,
+    }));
+  };
+
+  const handleVolumeChange = (value: number) => {
+    setMusicState((previousState) => ({
+      ...previousState,
+      volume: value,
+    }));
   };
 
   return (
@@ -28,6 +47,11 @@ export default function Home() {
         <ThermostatControl
           temperature={temperature}
           onTemperatureChange={handleTemperatureChange}
+        />
+        <MusicPlayerControl
+          state={musicState}
+          onPlayPause={handlePlayPause}
+          onVolumeChange={handleVolumeChange}
         />
         <ChatInterface />
       </div>
