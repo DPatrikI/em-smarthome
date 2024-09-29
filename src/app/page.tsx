@@ -8,6 +8,7 @@ import { useState } from "react";
 
 import { useLightControl } from '@/hooks/useLightControl';
 import { useThermostatControl } from '@/hooks/useThermostatControl';
+import { useMusicPlayerControl } from '@/hooks/useMusicPlayerControl';
 
 export default function Home() {
   const {
@@ -24,24 +25,13 @@ export default function Home() {
     setTemperature,
   } = useThermostatControl();
 
-  const [musicState, setMusicState] = useState({
-    isPlaying: false,
-    volume: 50,
-  });
-
-  const handlePlayPause = () => {
-    setMusicState((previousState) => ({
-      ...previousState,
-      isPlaying: !previousState.isPlaying,
-    }));
-  };
-
-  const handleVolumeChange = (value: number) => {
-    setMusicState((previousState) => ({
-      ...previousState,
-      volume: value,
-    }));
-  };
+  const {
+    musicState,
+    loading: musicLoading,
+    error: musicError,
+    togglePlayPause,
+    setVolume,
+  } = useMusicPlayerControl();
 
   return (
     <div className="container mx-auto p-6">
@@ -61,8 +51,10 @@ export default function Home() {
         />
         <MusicPlayerControl
           state={musicState}
-          onPlayPause={handlePlayPause}
-          onVolumeChange={handleVolumeChange}
+          loading={musicLoading}
+          error={musicError}
+          onPlayPause={togglePlayPause}
+          onVolumeChange={setVolume}
         />
       </div>
       <ChatInterface />
