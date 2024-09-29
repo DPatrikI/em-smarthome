@@ -2,13 +2,19 @@
 
 import ChatInterface from "@/components/ChatInterface";
 import LightControl from "@/components/LightControl";
+import ThermostatControl from "@/components/Thermostat";
 import { useState } from "react";
 
 export default function Home() {
   const [lightOn, setLightOn] = useState(false);
+  const [temperature, setTemperature] = useState(22);
 
   const handleLightToggle = () => {
     setLightOn((previous) => !previous);
+  };
+
+  const handleTemperatureChange = (value: number) => {
+    setTemperature(value);
   };
 
   return (
@@ -18,6 +24,10 @@ export default function Home() {
         <LightControl
           isOn={lightOn}
           onToggle={handleLightToggle}
+        />
+        <ThermostatControl
+          temperature={temperature}
+          onTemperatureChange={handleTemperatureChange}
         />
         <ChatInterface />
       </div>
