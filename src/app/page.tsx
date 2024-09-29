@@ -4,7 +4,6 @@ import ChatInterface from "@/components/ChatInterface";
 import LightControl from "@/components/LightControl";
 import MusicPlayerControl from "@/components/MusicPlayerControl";
 import ThermostatControl from "@/components/Thermostat";
-import { useState } from "react";
 
 import { useLightControl } from '@/hooks/useLightControl';
 import { useThermostatControl } from '@/hooks/useThermostatControl';
@@ -15,13 +14,15 @@ export default function Home() {
     lightState,
     loading: lightLoading,
     error: lightError,
-    toggleLight,
+    setLoading: setLightLoading,
+    toggleLight
   } = useLightControl();
 
   const {
     thermostatState,
     loading: thermostatLoading,
     error: thermostatError,
+    setLoading: setThermostatLoading,
     setTemperature,
   } = useThermostatControl();
 
@@ -29,6 +30,7 @@ export default function Home() {
     musicState,
     loading: musicLoading,
     error: musicError,
+    setLoading: setMusicLoading,
     togglePlayPause,
     setVolume,
   } = useMusicPlayerControl();
@@ -57,7 +59,27 @@ export default function Home() {
           onVolumeChange={setVolume}
         />
       </div>
-      <ChatInterface />
+      <ChatInterface
+        setLightOn={(isOn: boolean) => {
+          toggleLight();
+        }}
+        setLightLoading={(loading: boolean) => {
+          setLightLoading(loading);
+        }}
+        setTemperature={setTemperature}
+        setThermostatLoading={(loading: boolean) => {
+          setThermostatLoading(loading);
+        }}
+        setMusicState={(state: { isPlaying: boolean; volume: number }) => {
+          setVolume(state.volume);
+          if (state.isPlaying !== musicState.isPlaying) {
+            togglePlayPause();
+          }
+        }}
+        setMusicLoading={(loading: boolean) => {
+          setMusicLoading(loading);
+        }}
+      />
     </div>
   );
 }

@@ -53,7 +53,7 @@ export const smartHomeTools = {
     controlMusic: tool({
         description: 'Control the music player',
         parameters: z.object({
-            action: z.enum(['play', 'pause', 'stop']).describe('Action to perform'),
+            action: z.enum(['play', 'pause']).describe('Action to perform'),
             volume: z.number().optional().describe('Volume level (0-100)'),
         }),
         execute: async ({ action, volume }) => {

@@ -55,6 +55,7 @@ export function useLightControl() {
         lightState,
         loading,
         error,
+        setLoading,
         toggleLight,
     };
 }

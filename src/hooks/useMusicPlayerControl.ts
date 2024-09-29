@@ -80,6 +80,7 @@ export function useMusicPlayerControl() {
         loading,
         error,
         togglePlayPause,
+        setLoading,
         setVolume,
     };
 }

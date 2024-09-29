@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
     try {
         const { isOn } = await request.json();
 
-        const { resource } = await container.items.upsert({ id: 'light', on: isOn });
+        const { resource } = await container.items.upsert({ id: 'light', isOn });
 
         return NextResponse.json(resource);
     } catch (error) {

@@ -54,6 +54,7 @@ export function useThermostatControl() {
         thermostatState,
         loading,
         error,
+        setLoading,
         setTemperature,
     };
 }
