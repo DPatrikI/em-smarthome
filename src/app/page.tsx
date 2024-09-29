@@ -7,6 +7,7 @@ import ThermostatControl from "@/components/Thermostat";
 import { useState } from "react";
 
 import { useLightControl } from '@/hooks/useLightControl';
+import { useThermostatControl } from '@/hooks/useThermostatControl';
 
 export default function Home() {
   const {
@@ -16,15 +17,17 @@ export default function Home() {
     toggleLight,
   } = useLightControl();
 
-  const [temperature, setTemperature] = useState(22);
+  const {
+    thermostatState,
+    loading: thermostatLoading,
+    error: thermostatError,
+    setTemperature,
+  } = useThermostatControl();
+
   const [musicState, setMusicState] = useState({
     isPlaying: false,
     volume: 50,
   });
-
-  const handleTemperatureChange = (value: number) => {
-    setTemperature(value);
-  };
 
   const handlePlayPause = () => {
     setMusicState((previousState) => ({
@@ -51,8 +54,10 @@ export default function Home() {
           onToggle={toggleLight}
         />
         <ThermostatControl
-          temperature={temperature}
-          onTemperatureChange={handleTemperatureChange}
+          temperature={thermostatState.temperature}
+          loading={thermostatLoading}
+          error={thermostatError}
+          onTemperatureChange={setTemperature}
         />
         <MusicPlayerControl
           state={musicState}
