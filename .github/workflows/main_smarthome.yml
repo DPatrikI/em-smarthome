@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy Node.js app to Azure Web App - smarthome
 
 on:
@@ -21,17 +18,17 @@ jobs:
         with:
           node-version: '20.x'
 
-      - name: npm install, build, and test
-        run: |
-          npm install
-          npm run build --if-present
-          npm run test --if-present
-          env:
-            OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-            COSMOS_DB_ENDPOINT: ${{ secrets.COSMOS_DB_ENDPOINT }}
-            COSMOS_DB_KEY: ${{ secrets.COSMOS_DB_KEY }}
-            COSMOS_DB_DATABASE: ${{ secrets.COSMOS_DB_DATABASE }}
-            COSMOS_DB_CONTAINER: ${{ secrets.COSMOS_DB_CONTAINER }}
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build the project
+        run: pnpm build
+
+      - name: Test the project
+        run: pnpm test
 
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
@@ -49,7 +46,7 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
+      id-token: write
 
     steps:
       - name: Download artifact from build job
@@ -59,19 +56,18 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
-      
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_7A900F2532CC49738DB65DA3DC73F21C }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_0EAAA9DCBDFA48E7BD77425BDC612533 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_E12522AD98F644C68E769D4CEF6BD77E }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
 
-      - name: 'Deploy to Azure Web App'
+      - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'smarthome'
           slot-name: 'Production'
           package: .
-          
