@@ -10,6 +10,8 @@ export function useLightControl() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
+        if (typeof window === 'undefined') return;
+
         async function fetchLightData() {
             try {
                 const response = await fetch('/api/light');
@@ -31,6 +33,7 @@ export function useLightControl() {
 
     const toggleLight = async () => {
         setLightState((prevState) => ({ isOn: !prevState.isOn }));
+        if (typeof window === 'undefined') return;
 
         try {
             const response = await fetch('/api/light', {

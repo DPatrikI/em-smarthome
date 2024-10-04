@@ -11,6 +11,8 @@ export function useMusicPlayerControl() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
+        if (typeof window === 'undefined') return;
+
         async function fetchMusicData() {
             try {
                 const response = await fetch('/api/music');
@@ -35,6 +37,8 @@ export function useMusicPlayerControl() {
         const updatedState = { ...musicState, isPlaying: newIsPlaying };
         setMusicState(updatedState);
 
+        if (typeof window === 'undefined') return;
+
         try {
             const response = await fetch('/api/music', {
                 method: 'POST',
@@ -56,6 +60,8 @@ export function useMusicPlayerControl() {
     const setVolume = async (newVolume: number) => {
         const updatedState = { ...musicState, volume: newVolume };
         setMusicState(updatedState);
+
+        if (typeof window === 'undefined') return;
 
         try {
             const response = await fetch('/api/music', {

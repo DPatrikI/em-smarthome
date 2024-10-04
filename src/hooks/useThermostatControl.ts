@@ -10,6 +10,8 @@ export function useThermostatControl() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
+        if (typeof window === 'undefined') return;
+
         async function fetchThermostatData() {
             try {
                 const response = await fetch('/api/thermostat');
@@ -31,6 +33,8 @@ export function useThermostatControl() {
 
     const setTemperature = async (newTemperature: number) => {
         setThermostatState({ temperature: newTemperature });
+
+        if (typeof window === 'undefined') return;
 
         try {
             const response = await fetch('/api/thermostat', {
