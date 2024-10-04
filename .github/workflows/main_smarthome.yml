@@ -26,6 +26,12 @@ jobs:
           npm install
           npm run build --if-present
           npm run test --if-present
+          env:
+            OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+            COSMOS_DB_ENDPOINT: ${{ secrets.COSMOS_DB_ENDPOINT }}
+            COSMOS_DB_KEY: ${{ secrets.COSMOS_DB_KEY }}
+            COSMOS_DB_DATABASE: ${{ secrets.COSMOS_DB_DATABASE }}
+            COSMOS_DB_CONTAINER: ${{ secrets.COSMOS_DB_CONTAINER }}
 
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
