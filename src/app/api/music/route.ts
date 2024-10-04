@@ -1,7 +1,7 @@
 import { container } from '@/lib/cosmosdb';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
     try {
         const { resources } = await container.items
             .query("SELECT * FROM c WHERE c.id = 'music'")

@@ -60,7 +60,7 @@ export default function Home() {
         />
       </div>
       <ChatInterface
-        setLightOn={(isOn: boolean) => {
+        setLightOn={() => {
           toggleLight();
         }}
         setLightLoading={(loading: boolean) => {

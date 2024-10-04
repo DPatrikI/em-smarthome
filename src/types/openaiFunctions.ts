@@ -17,7 +17,7 @@ export const smartHomeTools = {
                     on: state === 'on',
                 };
 
-                const { resource } = await container.items.upsert(updatedItem);
+                await container.items.upsert(updatedItem);
 
                 console.log('Executed toggleLight');
                 return { success: true, state };
@@ -40,7 +40,7 @@ export const smartHomeTools = {
                     temperature,
                 };
 
-                const { resource } = await container.items.upsert(updatedItem);
+                await container.items.upsert(updatedItem);
 
                 return { success: true, temperature };
             } catch (error) {
@@ -70,7 +70,7 @@ export const smartHomeTools = {
                     volume: volume !== undefined ? volume : existingItem.volume,
                 };
 
-                const { resource } = await container.items.upsert(updatedItem);
+                await container.items.upsert(updatedItem);
 
                 return { success: true, action, volume: updatedItem.volume };
             } catch (error) {
