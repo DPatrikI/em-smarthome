@@ -68,5 +68,6 @@ jobs:
         with:
           app-name: 'smarthome'
           resource-group-name: 'EM'
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
           package: .
           slot-name: ''
