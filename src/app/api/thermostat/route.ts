@@ -1,8 +1,14 @@
-import { container } from '@/lib/cosmosdb';
+import { getContainer } from '@/lib/cosmosdb';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET() {
+    if (!process.env.COSMOS_DB_ENDPOINT || typeof window !== 'undefined') {
+        return NextResponse.json({ error: 'Invalid environment for fetching thermostat data' }, { status: 500 });
+    }
+
     try {
+        const container = getContainer();
+
         const { resources } = await container.items
             .query("SELECT * FROM c WHERE c.id = 'thermostat'")
             .fetchAll();
@@ -17,7 +23,13 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+    if (!process.env.COSMOS_DB_ENDPOINT || typeof window !== 'undefined') {
+        return NextResponse.json({ error: 'Invalid environment for updating thermostat data' }, { status: 500 });
+    }
+
     try {
+        const container = getContainer();
+        
         const { temperature } = await request.json();
 
         const { resource } = await container.items.upsert({ id: 'thermostat', temperature });

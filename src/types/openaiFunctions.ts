@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { tool } from 'ai';
-import { container } from '@/lib/cosmosdb';
+import { getContainer } from '@/lib/cosmosdb';
 
 export const smartHomeTools = {
     toggleLight: tool({
@@ -12,6 +12,8 @@ export const smartHomeTools = {
             console.log('Executing toggleLight');
 
             try {
+                const container = getContainer();
+
                 const updatedItem = {
                     id: 'light',
                     on: state === 'on',
@@ -35,6 +37,8 @@ export const smartHomeTools = {
         }),
         execute: async ({ temperature }) => {
             try {
+                const container = getContainer();
+
                 const updatedItem = {
                     id: 'thermostat',
                     temperature,
@@ -58,6 +62,8 @@ export const smartHomeTools = {
         }),
         execute: async ({ action, volume }) => {
             try {
+                const container = getContainer();
+                
                 let { resource: existingItem } = await container.item('music', 'music').read();
 
                 if (!existingItem) {

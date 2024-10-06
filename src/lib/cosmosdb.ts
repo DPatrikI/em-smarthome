@@ -1,11 +1,21 @@
-import { CosmosClient } from "@azure/cosmos";
+import { Container, CosmosClient } from '@azure/cosmos';
 
-const endpoint = process.env.COSMOS_DB_ENDPOINT!;
-const key = process.env.COSMOS_DB_KEY!;
-const databaseId = process.env.COSMOS_DB_DATABASE!;
-const containerId = process.env.COSMOS_DB_CONTAINER!;
+let container: Container;
 
-const client = new CosmosClient({ endpoint, key });
+export function getContainer() {
+    if (!container) {
+        const endpoint = process.env.COSMOS_DB_ENDPOINT;
+        const key = process.env.COSMOS_DB_KEY;
+        const databaseId = process.env.COSMOS_DB_DATABASE;
+        const containerId = process.env.COSMOS_DB_CONTAINER;
 
-export const database = client.database(databaseId);
-export const container = database.container(containerId);
+        if (!endpoint || !key || !databaseId || !containerId) {
+            throw new Error('Missing required environment variables for Cosmos DB');
+        }
+
+        const client = new CosmosClient({ endpoint, key });
+        const database = client.database(databaseId);
+        container = database.container(containerId);
+    }
+    return container;
+}
