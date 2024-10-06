@@ -66,6 +66,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'smarthome-d0amfwc6bta6gwhc'
+          app-name: 'smarthome'
+          resource-group: 'EM'
           package: .
           slot-name: ''
